@@ -55,7 +55,7 @@ end
 
 # Generate message to send Idobata
 msg = ""
-msg << "<span class='label label-info'>yasulab</span> が体重を測りました<br /> \n"
+msg << "<span class='label label-info'>himajin315</span> が体重を測りました<br /> \n"
 msg << "日付: " + DateTime.parse(date[0]).strftime("%Y年%m月%d日 %H:%M:%S") + "<br/> \n"
 data.each_with_index { |datum, num|
   break if num >= 1 and TAG2NAME[tags[num].text] == "体重"  # Get the latest only
