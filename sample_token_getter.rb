@@ -1,3 +1,8 @@
+#!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
+
+require 'mechanize'
+
 # This is just sample program. See the following blog for details.
 # http://www.mirandora.com/?p=808
 # You don't have to get the token via Agent.
@@ -8,22 +13,30 @@ agent = Mechanize.new
 agent.user_agent_alias = 'Windows IE 9'
 
 
+CLIENT_ID     = ENV['CLIENT_ID']
+CLIENT_SECRET = ENV['CLIENT_SECRET']
+REDIRECT_URI  = 'https://www.healthplanet.jp/success.html'
+
 # Get Access Code
-#url = "https://www.healthplanet.jp/oauth/auth?client_id=#{CLIENT_ID}&redirect_uri=#{REDIRECT_URI}&scope=innerscan&response_type=code"
-#puts "URL: " + url
-#page = agent.get(url)
-#login_form = page.forms_with(:name => 'login.LoginForm').first
-#login_form.fields_with(:name => 'loginId').first.value = ENV['USER_ID']
-#login_form.fields_with(:name => 'passwd' ).first.value = ENV['USER_PASS']
-#page2 = login_form.click_button
+url = "https://www.healthplanet.jp/oauth/auth?client_id=#{CLIENT_ID}&redirect_uri=#{REDIRECT_URI}&scope=innerscanr&response_type=code"
 
-#login_form2 = page2.forms_with(:name => 'common.SiteInfoBaseForm').first
-#login_form2.fields_with(:name => 'approval').first.value = 'true'
-#page3 = login_form2.click_button
-#puts "page3: " + page3
 
-#AUTH_CODE = page3.uri.query[5,page3.uri.query.length - 5]
-#puts "AUTH_CODE: " + AUTH_CODE
+
+
+puts "URL: " + url
+page = agent.get(url)
+login_form = page.forms_with(:name => 'login.LoginForm').first
+login_form.fields_with(:name => 'loginId').first.value = ENV['USER_ID']
+login_form.fields_with(:name => 'passwd' ).first.value = ENV['USER_PASS']
+page2 = login_form.click_button
+
+login_form2 = page2.forms_with(:name => 'common.SiteInfoBaseForm').first
+login_form2.fields_with(:name => 'approval').first.value = 'true'
+page3 = login_form2.click_button
+puts "page3: " + page3
+
+AUTH_CODE = page3.uri.query[5,page3.uri.query.length - 5]
+puts "AUTH_CODE: " + AUTH_CODE
 
 
 # Get Access Token
